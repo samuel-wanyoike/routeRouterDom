@@ -21,7 +21,7 @@ function App() {
         <Route path='*' element={<h1>page not found</h1>}/>
       </Route>
     )
-  )
+  );
 
   return (
     <div className="App">

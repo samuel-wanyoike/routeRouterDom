@@ -4,10 +4,21 @@ import { Home } from './pages/home';
 import { Profile } from './pages/profile';
 import { Contact } from './pages/contact';
 import { useState, createContext } from 'react';
+import { QueryClient, QueryClientProvider} from '@tanstack/react-query';
 
   // context to the state function and variable above
   export const AppContext =createContext();
 function App() {
+
+  //setting up react-query and configurations
+  const client = new QueryClient(
+    {defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false
+      }
+    }}
+  );
+
   //state for setting the username across all pages
   const [userName, setUserName] = useState("Wanyoike");
 
@@ -26,10 +37,12 @@ function App() {
   return (
     <div className="App">
       {/* AppContext is being used as a global context */}
+      <QueryClientProvider client={client}>
+        <AppContext.Provider value={{userName, setUserName}}>
+          <RouterProvider router={router} />
+        </AppContext.Provider>
+      </QueryClientProvider>
       
-      <AppContext.Provider value={{userName, setUserName}}>
-        <RouterProvider router={router} />
-      </AppContext.Provider>
       
     </div>
   );
